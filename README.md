@@ -14,3 +14,4 @@ $ node index.js
 node version is v8.2.0
 There should have been an error, much sadness!
 ```
+https://github.com/nodejs/node/issues/15029
