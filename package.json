@@ -1,0 +1,11 @@
+{
+  "name": "node-stream-repro",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.15.4",
+    "node-fetch": "^1.7.2",
+    "pump": "^1.0.2"
+  }
+}
