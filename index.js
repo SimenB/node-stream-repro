@@ -2,20 +2,18 @@
 
 const { get } = require('http');
 const express = require('express');
-const fetch = require('node-fetch');
+const request = require('request');
 const pump = require('pump');
 
 const server1 = express();
 const server2 = express();
 
-server1.use('/endpoint', async (req, res) => {
-    const f = await fetch('http://localhost:3001/endpoint');
-
-    pump(f.body, res, err => {
+server1.use('/endpoint', (req, res) => {
+    pump(request.get('http://localhost:3001/endpoint'), res, err => {
         console.log(`node version is ${process.version}`);
 
         if (err) {
-            console.log('There was an error, yay!');
+            console.log('There was an error, yay!', err);
             return;
         }
 
@@ -59,4 +57,7 @@ Promise.all(
     )
     .then(() => func())
     .then(() => process.exit(0))
-    .catch(() => process.exit(1));
+    .catch((e) => {
+        console.error(e);
+        process.exit(1);
+    });
