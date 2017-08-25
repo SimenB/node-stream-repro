@@ -35,14 +35,7 @@ async function func() {
     });
 
     await new Promise((resolve, reject) => {
-        clientReq = get(
-            {
-                hostname: 'localhost',
-                port: 3000,
-                path: '/endpoint',
-                timeout: 100,
-                agent: false,
-            },
+        clientReq = get('http://localhost:3000/endpoint',
             reject
         ).on('error', () => {
             setTimeout(resolve, 150);
