@@ -22,35 +22,36 @@ server1.use('/endpoint', (req, res) => {
     });
 });
 
-async function func() {
-    let clientReq;
-
-    server2.use('/endpoint', (req, res) => {
-        // write header
-        res.writeHead(200);
-        setTimeout(() => {
-            clientReq.abort();
-            res.end('write something after other side is closed');
-        }, 200);
-    });
-
-    await new Promise((resolve, reject) => {
-        clientReq = get('http://localhost:3000/endpoint',
-            reject
-        ).on('error', () => {
-            setTimeout(resolve, 150);
-        });
-    });
-}
-
 let port = 3000;
 
 Promise.all(
-        [server1, server2].map(server => new Promise(resolver => server.listen(port++, resolver)))
+    [server1, server2].map(
+        server => new Promise(resolver => server.listen(port++, resolver))
     )
-    .then(() => func())
+)
+    .then(() => {
+        let clientReq;
+
+        server2.use('/endpoint', (req, res) => {
+            // write header
+            res.writeHead(200);
+            setTimeout(() => {
+                clientReq.abort();
+                res.end('write something after other side is closed');
+            }, 200);
+        });
+
+        return new Promise((resolve, reject) => {
+            clientReq = get(
+                'http://localhost:3000/endpoint',
+                reject
+            ).on('error', () => {
+                setTimeout(resolve, 150);
+            });
+        });
+    })
     .then(() => process.exit(0))
-    .catch((e) => {
+    .catch(e => {
         console.error(e);
         process.exit(1);
     });
