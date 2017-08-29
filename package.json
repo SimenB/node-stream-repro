@@ -2,6 +2,8 @@
   "name": "node-stream-repro",
   "version": "1.0.0",
   "main": "index.js",
+  "private": true,
+  "repository": "SimenB/node-stream-repro",
   "license": "MIT",
   "dependencies": {
     "pump": "^1.0.2"

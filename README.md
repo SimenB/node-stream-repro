@@ -2,7 +2,7 @@
 
 ```sh-session
 $ npm install
-added 50 packages in 1.421s
+added 4 packages in 0.82s
 $ nvm use 8.1.4
 Now using node v8.1.4 (npm v5.3.0)
 $ node index.js
